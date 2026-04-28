@@ -10,6 +10,7 @@
     "outDir": "dist",
     "rootDir": ".",
     "skipLibCheck": true,
+    "types": ["node"],
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*.ts", "scripts/**/*.ts"],

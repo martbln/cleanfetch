@@ -1,11 +1,10 @@
+import { env as processEnv } from "node:process";
 import { CleanFetchConfigError } from "./errors.js";
 import type { CleanFetchOptions, ResolvedAnthropicConfig, ResolvedCleanFetchConfig } from "./types.js";
 
 const DEFAULT_MODEL = "claude-haiku-4-5-20251001";
 
 type Env = Record<string, string | undefined>;
-
-declare const process: { env: Env };
 
 export function normalizeUrl(rawUrl: string): string {
   const trimmed = rawUrl.trim();
@@ -20,7 +19,7 @@ export function normalizeUrl(rawUrl: string): string {
 
 export function resolveConfig(
   options: CleanFetchOptions = {},
-  env: Env = process.env,
+  env: Env = processEnv,
 ): ResolvedCleanFetchConfig {
   const anthropicApiKey = options.anthropicApiKey ?? env.ANTHROPIC_API_KEY;
   const cloudflareAccountId = options.cloudflareAccountId ?? env.CLOUDFLARE_ACCOUNT_ID;
@@ -49,7 +48,7 @@ export function resolveConfig(
 
 export function resolveAnthropicConfig(
   options: CleanFetchOptions = {},
-  env: Env = process.env,
+  env: Env = processEnv,
 ): ResolvedAnthropicConfig {
   const anthropicApiKey = options.anthropicApiKey ?? env.ANTHROPIC_API_KEY;
   const model = options.model ?? DEFAULT_MODEL;

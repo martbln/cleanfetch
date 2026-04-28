@@ -53,6 +53,7 @@ describe("resolveConfig", () => {
     expect(config.anthropicApiKey).toBe("env-anthropic");
     expect(config.cloudflareAccountId).toBe("env-account");
     expect(config.cloudflareApiToken).toBe("env-token");
+    expect(config.model).toBe("claude-haiku-4-5-20251001");
   });
 
   it("throws when a required credential is missing", () => {
