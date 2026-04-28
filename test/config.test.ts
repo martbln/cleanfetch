@@ -7,6 +7,10 @@ describe("normalizeUrl", () => {
     expect(normalizeUrl("stripe.com/pricing")).toBe("https://stripe.com/pricing");
   });
 
+  it("trims surrounding whitespace before normalizing", () => {
+    expect(normalizeUrl("  stripe.com/pricing  ")).toBe("https://stripe.com/pricing");
+  });
+
   it("preserves explicit http URLs", () => {
     expect(normalizeUrl("http://example.com")).toBe("http://example.com/");
   });
@@ -69,5 +73,9 @@ describe("resolveAnthropicConfig", () => {
       anthropicApiKey: "env-anthropic",
       model: "claude-haiku-4-5-20251001",
     });
+  });
+
+  it("throws when Anthropic credentials are missing", () => {
+    expect(() => resolveAnthropicConfig({}, {})).toThrow(CleanFetchConfigError);
   });
 });
