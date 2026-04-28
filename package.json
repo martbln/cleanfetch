@@ -1,0 +1,52 @@
+{
+  "name": "cleanfetch",
+  "version": "0.1.0",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.json",
+    "test:watch": "vitest",
+    "test:live": "tsx scripts/live.ts",
+    "check": "npm run build && npm test"
+  },
+  "keywords": [
+    "ai",
+    "agents",
+    "markdown",
+    "web",
+    "scraping",
+    "cloudflare",
+    "anthropic"
+  ],
+  "author": "",
+  "license": "AGPL-3.0-only",
+  "description": "Clean any webpage to agent-ready markdown.",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.91.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5"
+  },
+  "type": "module",
+  "bin": {
+    "cleanfetch": "./dist/cli.js"
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  }
+}
