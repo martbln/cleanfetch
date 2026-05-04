@@ -19,6 +19,7 @@ describe("cleanMarkdown", () => {
       expect.objectContaining({
         model: "claude-haiku-4-5-20251001",
         max_tokens: 4000,
+        system: expect.stringContaining("Extract only factual"),
         messages: [
           {
             role: "user",
@@ -42,7 +43,8 @@ describe("cleanMarkdown", () => {
   });
 
   it("wraps Anthropic failures", async () => {
-    const create = vi.fn().mockRejectedValue(new Error("rate limited"));
+    const originalError = new Error("rate limited");
+    const create = vi.fn().mockRejectedValue(originalError);
 
     await expect(
       cleanMarkdown("content", {
@@ -50,6 +52,15 @@ describe("cleanMarkdown", () => {
         anthropicApiKey: "sk-test",
         anthropicClient: { messages: { create } },
       }),
-    ).rejects.toThrow(CleanFetchCleanError);
+    ).rejects.toSatisfy((err: unknown) => {
+      if (!(err instanceof CleanFetchCleanError)) return false;
+      if (
+        !err.message.startsWith("Anthropic cleaning failed:") ||
+        !err.message.includes("Anthropic cleaning failed: rate limited")
+      ) {
+        return false;
+      }
+      return err.cause === originalError;
+    });
   });
 });
