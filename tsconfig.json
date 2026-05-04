@@ -8,11 +8,11 @@
     "declaration": true,
     "sourceMap": true,
     "outDir": "dist",
-    "rootDir": ".",
+    "rootDir": "src",
     "skipLibCheck": true,
     "types": ["node"],
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts", "scripts/**/*.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["test", "dist", "node_modules"]
 }
