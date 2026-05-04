@@ -1,5 +1,6 @@
 export type {
   CleanFetchOptions,
+  AnthropicMessageClient,
   CleanMarkdownOptions,
   CleanResult,
   CrawlOptions,
@@ -20,3 +21,4 @@ export { estimateTokens, reductionPercent } from "./token-count.js";
 export { preFilter } from "./prefilter.js";
 export type { PreFilterOptions } from "./prefilter.js";
 export { crawl } from "./crawl.js";
+export { cleanMarkdown } from "./clean-markdown.js";

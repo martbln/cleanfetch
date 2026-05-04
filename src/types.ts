@@ -27,8 +27,17 @@ export type CrawlResult = {
   markdown: string;
 };
 
+export type AnthropicMessageClient = {
+  messages: {
+    create(input: unknown): Promise<{
+      content: Array<{ type?: string; text?: string }>;
+    }>;
+  };
+};
+
 export type CleanMarkdownOptions = CleanFetchOptions & {
   url: string;
+  anthropicClient?: AnthropicMessageClient;
 };
 
 export type CleanResult = {
