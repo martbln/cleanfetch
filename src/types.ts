@@ -17,6 +17,10 @@ export type ResolvedAnthropicConfig = {
   model: string;
 };
 
+export type CrawlOptions = CleanFetchOptions & {
+  modifiedSince?: number;
+};
+
 export type CrawlResult = {
   url: string;
   resolvedUrl: string;
