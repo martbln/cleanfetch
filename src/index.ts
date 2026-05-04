@@ -2,6 +2,7 @@ export type {
   CleanFetchOptions,
   AnthropicMessageClient,
   CleanMarkdownOptions,
+  CleanOptions,
   CleanResult,
   CrawlOptions,
   CrawlResult,
@@ -22,3 +23,4 @@ export { preFilter } from "./prefilter.js";
 export type { PreFilterOptions } from "./prefilter.js";
 export { crawl } from "./crawl.js";
 export { cleanMarkdown } from "./clean-markdown.js";
+export { clean } from "./clean.js";

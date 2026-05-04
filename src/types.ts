@@ -40,6 +40,10 @@ export type CleanMarkdownOptions = CleanFetchOptions & {
   anthropicClient?: AnthropicMessageClient;
 };
 
+export type CleanOptions = CleanFetchOptions & {
+  anthropicClient?: AnthropicMessageClient;
+};
+
 export type CleanResult = {
   url: string;
   resolvedUrl: string;
