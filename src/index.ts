@@ -16,3 +16,5 @@ export {
 
 export { normalizeUrl, resolveAnthropicConfig, resolveConfig } from "./config.js";
 export { estimateTokens, reductionPercent } from "./token-count.js";
+export { preFilter } from "./prefilter.js";
+export type { PreFilterOptions } from "./prefilter.js";
