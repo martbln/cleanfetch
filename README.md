@@ -5,7 +5,7 @@ Clean any webpage to agent-ready markdown.
 `cleanfetch` renders a URL with Cloudflare Browser Rendering, strips obvious navigation/footer noise, then asks Anthropic Haiku to extract the factual content agents actually need.
 
 ```bash
-npm install -g cleanfetch
+npm install -g @martbln/cleanfetch
 cleanfetch https://stripe.com/pricing > pricing.md
 ```
 
@@ -53,7 +53,7 @@ cleanfetch https://stripe.com/pricing --no-stats
 ## SDK
 
 ```ts
-import { clean } from "cleanfetch";
+import { clean } from "@martbln/cleanfetch";
 
 const result = await clean("https://stripe.com/pricing");
 
@@ -76,7 +76,7 @@ await clean("https://stripe.com/pricing", {
 ## Stage APIs
 
 ```ts
-import { cleanMarkdown, crawl, preFilter } from "cleanfetch";
+import { cleanMarkdown, crawl, preFilter } from "@martbln/cleanfetch";
 
 const crawled = await crawl("https://stripe.com/pricing");
 const filtered = preFilter(crawled.markdown);
