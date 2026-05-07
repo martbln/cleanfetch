@@ -13,13 +13,11 @@ afterEach(() => {
 });
 
 describe("crawl", () => {
-  it("calls Cloudflare Browser Rendering crawl and returns markdown", async () => {
+  it("calls Cloudflare Browser Rendering markdown and returns markdown", async () => {
     const fetchMock = vi.fn().mockResolvedValue(
       new Response(
         JSON.stringify({
-          result: {
-            records: [{ markdown: "# Pricing", url: "https://stripe.com/gb/pricing" }],
-          },
+          result: "# Pricing",
         }),
         { status: 200 },
       ),
@@ -29,7 +27,7 @@ describe("crawl", () => {
     const result = await crawl("stripe.com/pricing", config);
 
     expect(fetchMock).toHaveBeenCalledWith(
-      "https://api.cloudflare.com/client/v4/accounts/account-id/browser-rendering/crawl",
+      "https://api.cloudflare.com/client/v4/accounts/account-id/browser-rendering/markdown",
       expect.objectContaining({
         method: "POST",
         headers: expect.objectContaining({
@@ -40,26 +38,21 @@ describe("crawl", () => {
     );
     expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({
       url: "https://stripe.com/pricing",
-      depth: 1,
-      limit: 1,
-      formats: ["markdown"],
     });
     expect(result).toEqual({
       url: "https://stripe.com/pricing",
-      resolvedUrl: "https://stripe.com/gb/pricing",
+      resolvedUrl: "https://stripe.com/pricing",
       markdown: "# Pricing",
     });
   });
 
-  it("passes modifiedSince when supplied", async () => {
+  it("throws when Cloudflare returns empty markdown", async () => {
     const fetchMock = vi.fn().mockResolvedValue(
-      new Response(JSON.stringify({ result: { records: [{ markdown: "content" }] } }), { status: 200 }),
+      new Response(JSON.stringify({ result: "" }), { status: 200 }),
     );
     vi.stubGlobal("fetch", fetchMock);
 
-    await crawl("https://example.com", { ...config, modifiedSince: 1710000000 });
-
-    expect(JSON.parse(fetchMock.mock.calls[0][1].body).modifiedSince).toBe(1710000000);
+    await expect(crawl("https://example.com", config)).rejects.toThrow(CleanFetchCrawlError);
   });
 
   it("throws CleanFetchCrawlError for non-2xx responses", async () => {
@@ -75,7 +68,7 @@ describe("crawl", () => {
   it("throws when Cloudflare returns no markdown", async () => {
     vi.stubGlobal(
       "fetch",
-      vi.fn().mockResolvedValue(new Response(JSON.stringify({ result: { records: [{}] } }), { status: 200 })),
+      vi.fn().mockResolvedValue(new Response(JSON.stringify({ result: undefined }), { status: 200 })),
     );
 
     await expect(crawl("https://example.com", config)).rejects.toThrow(CleanFetchCrawlError);

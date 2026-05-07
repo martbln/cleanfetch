@@ -18,14 +18,7 @@ describe("clean", () => {
       vi.fn().mockResolvedValue(
         new Response(
           JSON.stringify({
-            result: {
-              records: [
-                {
-                  markdown: Array.from({ length: 100 }, (_, index) => `line ${index + 1}`).join("\n"),
-                  url: "https://stripe.com/gb/pricing",
-                },
-              ],
-            },
+            result: Array.from({ length: 100 }, (_, index) => `line ${index + 1}`).join("\n"),
           }),
           { status: 200 },
         ),
@@ -42,7 +35,7 @@ describe("clean", () => {
     });
 
     expect(result.url).toBe("https://stripe.com/pricing");
-    expect(result.resolvedUrl).toBe("https://stripe.com/gb/pricing");
+    expect(result.resolvedUrl).toBe("https://stripe.com/pricing");
     expect(result.rawMarkdown).toContain("line 1");
     expect(result.preFilteredMarkdown).toContain("line 13");
     expect(result.markdown).toBe("# Clean pricing");
