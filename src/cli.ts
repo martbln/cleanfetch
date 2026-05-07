@@ -1,5 +1,7 @@
 #!/usr/bin/env node
+import { realpathSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import { CleanFetchCleanError, CleanFetchConfigError, CleanFetchCrawlError } from "./errors.js";
 import { clean } from "./clean.js";
 import type { CleanResult } from "./types.js";
@@ -73,6 +75,12 @@ export function formatStats(result: Pick<CleanResult, "rawTokens" | "cleanTokens
   return `Tokens: ${numberFormatter.format(result.rawTokens)} raw -> ${numberFormatter.format(result.cleanTokens)} clean (${result.reduction}% reduction)`;
 }
 
+export function isCliEntryPoint(metaUrl: string, argvPath: string | undefined): boolean {
+  if (!argvPath) return false;
+
+  return realpathSync(fileURLToPath(metaUrl)) === realpathSync(argvPath);
+}
+
 async function main(): Promise<void> {
   let args: CliArgs;
 
@@ -117,6 +125,6 @@ async function main(): Promise<void> {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isCliEntryPoint(import.meta.url, process.argv[1])) {
   void main();
 }

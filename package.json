@@ -1,5 +1,5 @@
 {
-  "name": "cleanfetch",
+  "name": "@martbln/cleanfetch",
   "version": "0.1.0",
   "main": "./dist/index.js",
   "scripts": {
