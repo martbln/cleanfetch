@@ -13,6 +13,7 @@ export type CliArgs = {
 };
 
 const USAGE = `Usage: cleanfetch <url> [--json] [--output file.md] [--model model] [--no-stats]`;
+const numberFormatter = new Intl.NumberFormat("en-US");
 
 export function parseArgs(argv: string[]): CliArgs {
   const args: CliArgs = {
@@ -69,7 +70,7 @@ export function parseArgs(argv: string[]): CliArgs {
 }
 
 export function formatStats(result: Pick<CleanResult, "rawTokens" | "cleanTokens" | "reduction">): string {
-  return `Tokens: ${result.rawTokens.toLocaleString()} raw -> ${result.cleanTokens.toLocaleString()} clean (${result.reduction}% reduction)`;
+  return `Tokens: ${numberFormatter.format(result.rawTokens)} raw -> ${numberFormatter.format(result.cleanTokens)} clean (${result.reduction}% reduction)`;
 }
 
 async function main(): Promise<void> {
